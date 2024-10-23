@@ -17,20 +17,22 @@ using System.IO;
 using IWshRuntimeLibrary;
 using System.Windows.Forms;
 
+//Powered By C#
 namespace WindowsMicControl {
     public partial class Form1 : Form {
         public Form1() {
             InitializeComponent();
         }
+
         public static string Developer = "season of yanhua";
         public static string Version = "1.0";
         public static bool IsBetaVersion = false;
+        public static string ProgramName = "MicControl";
 
         public static MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
-        public static IEnumerable<MMDevice> micDevice = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active).ToArray();
+        public static IEnumerable<MMDevice> micDevice = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active).ToArray();        //获取所有麦克风设备
 
-        public static string ProgramName = "MicControl";
-        public static string MicMutedName;                              //是否静音
+        public static string MicMutedText;                              //是否静音Text
         public static bool RunAfterSystemBoot = false;                  //开机自启状态
         public static RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);                 //注册表自启键值
 
@@ -41,7 +43,7 @@ namespace WindowsMicControl {
         public static MemoryStream StreamOfMuted = new MemoryStream();
         public static MemoryStream StreamOfPlay = new MemoryStream();
 
-        public static MMDevice MicroPhone;              //麦克风对象全局变量
+        public static MMDevice MicroPhone;              //选中麦克风对象全局变量
 
         //初始化
         private void Form1_Load(object sender, EventArgs e) {
@@ -49,29 +51,33 @@ namespace WindowsMicControl {
                 MessageBox.Show("未找到麦克风设备 \n 请检查麦克风设备是否禁用或拔出", "应用程序错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(1);
             }
+            
+            MicroPhone = enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
 
             for (var i = 0; i < micDevice.Count(); i++) {
                 listBox2.Items.Add(micDevice.ToList()[i]);
+
+                if (micDevice.ToList()[i].ID == MicroPhone.ID) {
+                    listBox2.SelectedIndex = i;
+                }
             }
-            MicroPhone = micDevice.ToList()[0];
-            listBox2.SelectedIndex = 0;
 
             if (MicroPhone.AudioEndpointVolume.Mute == false) {
-                MicMutedName = "否";
+                MicMutedText = "否";
                 button1.Text = "麦克风静音";
                 this.notifyIcon1.Icon = Play;
                 this.Icon = Play;
                 this.pictureBox1.Image = MainPlayImage;
             }
             else {
-                MicMutedName = "是";
+                MicMutedText = "是";
                 button1.Text = "麦克风开启";
                 this.notifyIcon1.Icon = Muted;
                 this.Icon = Muted;
                 this.pictureBox1.Image = MainMutedImage;
             }
 
-            label1.Text = "静音：" + MicMutedName;
+            label1.Text = $"静音：{MicMutedText}";
 
             AppHotKey hotkey = new AppHotKey(Handle);
             AppHotKey.Hotkey1 = hotkey.RegisterHotkey(Keys.Scroll, AppHotKey.KeyFlags.NONE);
@@ -80,7 +86,10 @@ namespace WindowsMicControl {
             ToolStripMenuItem item = new ToolStripMenuItem();
             item.Text = MicroPhone.ToString();
             设备列表ToolStripMenuItem.DropDownItems.Add(item);
-            item.Checked = true;
+
+            ToolStripMenuItem ItemInMainForm = new ToolStripMenuItem();
+            ItemInMainForm.Text = MicroPhone.ToString();
+            设备ToolStripMenuItem.DropDownItems.Add(ItemInMainForm);
         }
 
         //按下热键
@@ -88,13 +97,29 @@ namespace WindowsMicControl {
             if (HotkeyID == AppHotKey.Hotkey1) MuteOrPlay(MicroPhone);
         }
 
-        //静音/解除
+        //刷新设备列表
+        public void FlushDevices() { 
+            micDevice = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active).ToArray();
+
+            listBox2.Items.Clear();
+
+            for (var i = 0; i < micDevice.Count(); i++) {
+                listBox2.Items.Add(micDevice.ToList()[i]);
+
+                if (micDevice.ToList()[i].ID == MicroPhone.ID) {
+                    listBox2.SelectedIndex = i;
+                }
+            }
+            MicroPhone = enumerator.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
+        }
+
+        //静音、解除
         public bool MuteOrPlay(MMDevice mmdevice) {
             if (mmdevice.AudioEndpointVolume.Mute == false) {
                 mmdevice.AudioEndpointVolume.Mute = true;
-                MicMutedName = "是";
+                MicMutedText = "是";
                 button1.Text = "麦克风开启";
-                label1.Text = "静音：" + MicMutedName;
+                label1.Text = $"静音：{MicMutedText}";
                 this.notifyIcon1.Icon = Muted;
                 this.Icon = Muted;
                 this.pictureBox1.Image = MainMutedImage;
@@ -102,9 +127,9 @@ namespace WindowsMicControl {
             }
             else {
                 mmdevice.AudioEndpointVolume.Mute = false;
-                MicMutedName = "否";
+                MicMutedText = "否";
                 button1.Text = "麦克风静音";
-                label1.Text = "静音：" + MicMutedName;
+                label1.Text = $"静音：{MicMutedText}";
                 this.notifyIcon1.Icon = Play;
                 this.Icon = Play;
                 this.pictureBox1.Image = MainPlayImage;
@@ -154,16 +179,13 @@ namespace WindowsMicControl {
             }
 
             string[] keylist = registryKey.GetValueNames();
-            int index;
-            for (index = 0; index < keylist.Length; index++) {              //循环检索键
+            for (var index = 0; index < keylist.Length; index++) {              //循环检索键
                 if (keylist[index].Equals(ProgramName)) {
                     this.开机后自启动ToolStripMenuItem.Checked = true;
-                    break;
+                    return;
                 }
             }
-            if (index >= keylist.Length) {
-                this.开机后自启动ToolStripMenuItem.Checked = false;
-            }
+            this.开机后自启动ToolStripMenuItem.Checked = false;
 
         }
         
@@ -171,7 +193,6 @@ namespace WindowsMicControl {
             if (this.麦克风静音ToolStripMenuItem.Checked == false) this.麦克风静音ToolStripMenuItem.Checked = true;
             else this.麦克风静音ToolStripMenuItem.Checked = false;
             MuteOrPlay(MicroPhone);
-
         }
         private void 开机后自启动ToolStripMenuItem_Click(object sender, EventArgs e) {                //开机自启设置
             if (this.开机后自启动ToolStripMenuItem.Checked == false) {
@@ -207,30 +228,89 @@ namespace WindowsMicControl {
 
         public void StateChangeOnly(MMDevice mmdevice) {
             if (mmdevice.AudioEndpointVolume.Mute == false) {
-                MicMutedName = "是";
+                MicMutedText = "是";
                 button1.Text = "麦克风开启";
-                label1.Text = "静音：" + MicMutedName;
+                label1.Text = $"静音：{MicMutedText}";
                 this.notifyIcon1.Icon = Muted;
                 this.Icon = Muted;
                 this.pictureBox1.Image = MainMutedImage;
             }
             else {
-                MicMutedName = "否";
+                MicMutedText = "否";
                 button1.Text = "麦克风静音";
-                label1.Text = "静音：" + MicMutedName;
+                label1.Text = $"静音：{MicMutedText}";
                 this.notifyIcon1.Icon = Play;
                 this.Icon = Play;
                 this.pictureBox1.Image = MainPlayImage;
             }
         }
 
+        private void 测试ToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e) {
+            this.Dispose();
+            Environment.Exit(0);
+        }
+        private void 显示ToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void 隐藏窗口ToolStripMenuItem_Click(object sender, EventArgs e) {
+            this.WindowState = FormWindowState.Minimized;
+        }
+        private void 设备ToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+        private void 选项ToolStripMenuItem_Click(object sender, EventArgs e) {
+            string[] keylist = registryKey.GetValueNames();
+            int index;
+            for (index = 0; index < keylist.Length; index++) {              //循环检索键
+                if (keylist[index].Equals(ProgramName)) {
+                    this.开机后自启动ToolStripMenuItem1.Checked = true;
+                    break;
+                }
+            }
+            if (index >= keylist.Length) {
+                this.开机后自启动ToolStripMenuItem1.Checked = false;
+            }
+        }
+        private void 麦克风静音ToolStripMenuItem1_Click(object sender, EventArgs e) {
+            if (this.麦克风静音ToolStripMenuItem.Checked == false) this.麦克风静音ToolStripMenuItem.Checked = true;
+            else this.麦克风静音ToolStripMenuItem.Checked = false;
+            MuteOrPlay(MicroPhone);
+        }
+
+        private void 开机后自启动ToolStripMenuItem1_Click(object sender, EventArgs e) {
+            if (this.开机后自启动ToolStripMenuItem1.Checked == false) {
+                this.开机后自启动ToolStripMenuItem1.Checked = true;
+                registryKey.SetValue(ProgramName, Application.ExecutablePath);
+            }
+            else {
+                this.开机后自启动ToolStripMenuItem1.Checked = false;
+                registryKey.DeleteValue(ProgramName);
+            }
+            RunAfterSystemBoot = this.开机后自启动ToolStripMenuItem.Checked;
+        }
+
+        private void listBox2_SelectedIndexChanged(object sender, EventArgs e) {
+            for (int i = 0; i < micDevice.Count(); i++) {
+                if (listBox2.SelectedItems == listBox2.Items[i]) {
+                    MicroPhone = micDevice.ToList()[i];
+                }
+            }
+            
+        }
+
+        private void 关于ToolStripMenuItem_Click(object sender, EventArgs e) {
+            MessageBox.Show("Developer: season of yanhua \n Version: 1.0 \n Date: 2023/3/8");
+        }
+
         private void Form1_KeyDown(object sender, KeyEventArgs e) {
         }
 
         private void label2_Click(object sender, EventArgs e) {
-
-        }
-        private void listBox2_SelectedIndexChanged(object sender, EventArgs e) {
 
         }
 

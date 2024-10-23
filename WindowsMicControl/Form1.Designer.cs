@@ -39,13 +39,25 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.退出程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.测试ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.显示ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.隐藏窗口ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.设备ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.选项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.麦克风静音ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.开机后自启动ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(213, 82);
+            this.button1.Location = new System.Drawing.Point(212, 97);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(147, 55);
             this.button1.TabIndex = 0;
@@ -56,7 +68,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(21, 30);
+            this.label2.Location = new System.Drawing.Point(21, 50);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 14);
             this.label2.TabIndex = 3;
@@ -67,7 +79,7 @@
             // 
             this.listBox2.FormattingEnabled = true;
             this.listBox2.ItemHeight = 12;
-            this.listBox2.Location = new System.Drawing.Point(109, 12);
+            this.listBox2.Location = new System.Drawing.Point(109, 28);
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(263, 52);
             this.listBox2.TabIndex = 4;
@@ -77,7 +89,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(105, 97);
+            this.label1.Location = new System.Drawing.Point(105, 111);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 21);
             this.label1.TabIndex = 7;
@@ -154,7 +166,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(24, 81);
+            this.pictureBox1.Location = new System.Drawing.Point(24, 97);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(56, 56);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -162,11 +174,103 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.测试ToolStripMenuItem,
+            this.显示ToolStripMenuItem,
+            this.设备ToolStripMenuItem,
+            this.选项ToolStripMenuItem,
+            this.关于ToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(384, 25);
+            this.menuStrip1.TabIndex = 9;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // 测试ToolStripMenuItem
+            // 
+            this.测试ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.退出ToolStripMenuItem});
+            this.测试ToolStripMenuItem.Name = "测试ToolStripMenuItem";
+            this.测试ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.测试ToolStripMenuItem.Text = "程序";
+            this.测试ToolStripMenuItem.Click += new System.EventHandler(this.测试ToolStripMenuItem_Click);
+            // 
+            // 退出ToolStripMenuItem
+            // 
+            this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.退出ToolStripMenuItem.Text = "退出";
+            this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
+            // 
+            // 显示ToolStripMenuItem
+            // 
+            this.显示ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.隐藏窗口ToolStripMenuItem});
+            this.显示ToolStripMenuItem.Name = "显示ToolStripMenuItem";
+            this.显示ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.显示ToolStripMenuItem.Text = "显示";
+            this.显示ToolStripMenuItem.Click += new System.EventHandler(this.显示ToolStripMenuItem_Click);
+            // 
+            // 隐藏窗口ToolStripMenuItem
+            // 
+            this.隐藏窗口ToolStripMenuItem.Name = "隐藏窗口ToolStripMenuItem";
+            this.隐藏窗口ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.隐藏窗口ToolStripMenuItem.Text = "隐藏窗口";
+            this.隐藏窗口ToolStripMenuItem.Click += new System.EventHandler(this.隐藏窗口ToolStripMenuItem_Click);
+            // 
+            // 设备ToolStripMenuItem
+            // 
+            this.设备ToolStripMenuItem.Name = "设备ToolStripMenuItem";
+            this.设备ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.设备ToolStripMenuItem.Text = "设备";
+            this.设备ToolStripMenuItem.Click += new System.EventHandler(this.设备ToolStripMenuItem_Click);
+            // 
+            // 选项ToolStripMenuItem
+            // 
+            this.选项ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.麦克风静音ToolStripMenuItem1,
+            this.toolStripSeparator3,
+            this.开机后自启动ToolStripMenuItem1});
+            this.选项ToolStripMenuItem.Name = "选项ToolStripMenuItem";
+            this.选项ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.选项ToolStripMenuItem.Text = "选项";
+            this.选项ToolStripMenuItem.Click += new System.EventHandler(this.选项ToolStripMenuItem_Click);
+            // 
+            // 麦克风静音ToolStripMenuItem1
+            // 
+            this.麦克风静音ToolStripMenuItem1.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.麦克风静音ToolStripMenuItem1.Name = "麦克风静音ToolStripMenuItem1";
+            this.麦克风静音ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.麦克风静音ToolStripMenuItem1.Text = "麦克风静音";
+            this.麦克风静音ToolStripMenuItem1.Click += new System.EventHandler(this.麦克风静音ToolStripMenuItem1_Click);
+            // 
+            // 关于ToolStripMenuItem
+            // 
+            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.关于ToolStripMenuItem.Text = "关于";
+            this.关于ToolStripMenuItem.Click += new System.EventHandler(this.关于ToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            // 
+            // 开机后自启动ToolStripMenuItem1
+            // 
+            this.开机后自启动ToolStripMenuItem1.Name = "开机后自启动ToolStripMenuItem1";
+            this.开机后自启动ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.开机后自启动ToolStripMenuItem1.Text = "开机后自启动";
+            this.开机后自启动ToolStripMenuItem1.Click += new System.EventHandler(this.开机后自启动ToolStripMenuItem1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 156);
+            this.ClientSize = new System.Drawing.Size(384, 170);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listBox2);
@@ -174,6 +278,7 @@
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -184,6 +289,8 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -205,6 +312,17 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 测试ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 显示ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 隐藏窗口ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 设备ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 选项ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 麦克风静音ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem 开机后自启动ToolStripMenuItem1;
     }
 }
 
